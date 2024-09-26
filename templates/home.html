@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Blog Application</title>
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <header class="menubar">
+        <div class="menubar__navigation">
+            <button class="menubar__navigation__button"></button>
+            <button class="menubar__navigation__button"></button>
+            <button class="menubar__navigation__button"></button>
+            <button class="menubar__navigation__button"></button>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="form__section">
+            <h1  class="form__label">How was your day?</h1>
+            <form action="/" class="form" method="post">
+                <textarea name="textarea" id="entry" class="form__textarea"></textarea>
+                <button type="submit" class="form__submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="article__section">
+            {% for entry in entries %}
+            <article class="entry">
+                <div>
+                    <h2 class="entry__title">{{ entry["title"] }}</h2>
+                    <time datetime="{{ entry['datetime'] }}" class="entry__date">{{ entry["datetime_formatted"] }}</time>
+                </div>
+                <p class="entry__content">{{ entry["content"] }}</p>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+
+</body>
+</html>
