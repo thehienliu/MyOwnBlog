@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 
+
 def create_app():
     app = Flask(__name__)
     client = MongoClient(os.getenv("MONGODB_URI"))
@@ -22,13 +23,15 @@ def create_app():
 
         return title, text
 
-    @app.route("/", methods=["GET", "POST"]) 
+    @app.route("/", methods=["GET", "POST"])
     def home():
 
         if request.method == "POST":
             entry_content = request.form.get("textarea")
             postted_date = datetime.today().strftime("%d-%m-%Y")
-            app.db.my_blog_entries.insert_one({"content" : entry_content, "postted_date": postted_date})
+            app.db.my_blog_entries.insert_one(
+                {"content": entry_content, "postted_date": postted_date}
+            )
 
         entries = []
 
@@ -38,13 +41,15 @@ def create_app():
                 {
                     "title": title,
                     "datetime": entry["postted_date"],
-                    "datetime_formatted": datetime.strptime(entry["postted_date"], "%d-%m-%Y").strftime("%b %d, %Y"),
-                    "content": content
+                    "datetime_formatted": datetime.strptime(
+                        entry["postted_date"], "%d-%m-%Y"
+                    ).strftime("%b %d, %Y"),
+                    "content": content,
                 }
             )
 
         return render_template("home.html", entries=entries[::-1])
-    
+
     return app
 
 
@@ -52,4 +57,3 @@ if __name__ == "__main__":
     load_dotenv()
     app = create_app()
     app.run()
-
